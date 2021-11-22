@@ -6,9 +6,10 @@ Blog app using ReactJs and Redux toolkit as front end library and NodeJs as Back
 # steps to set up
 
 1. Clone the repo and cd awosome-pushengage
-2. cd api yarn install
+2. cd api
 3. copy the .env.example variable to .env for dev test ``` cp .env.example .env ```
-4. yarn start
+4. yarn install
+5. yarn start
 5. open another termial and go to root directory
 6. cd react-app
 7. copy the .env.example variable to .env for dev test ``` cp .env.example .env ```
