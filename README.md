@@ -1,6 +1,8 @@
 # awosome-pushengage
 Blog app using ReactJs and Redux toolkit as front end library and NodeJs as Backend
 
+# Pre requisites
+1. MongoDb should be pre installed in the system
 # steps to set up
 
 1. Clone the repo
