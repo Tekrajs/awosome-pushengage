@@ -1,9 +1,8 @@
 import superagentPromise from 'superagent-promise';
 import _superagent from 'superagent';
 const superagent = superagentPromise(_superagent, global.Promise);
-const API_ROOT = process.env.NODE_ENV === 'production' ? process.env.REACT_APP_API_URL : process.env.REACT_APP_API_URL_DEV;
+let API_ROOT = process.env.NODE_ENV === 'production' ? process.env.REACT_APP_API_URL : process.env.REACT_APP_API_URL_DEV;
 
-//const encode = encodeURIComponent;
 const responseBody = res => res.body;
 
 let token = null;

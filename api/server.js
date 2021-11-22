@@ -28,6 +28,6 @@ app.use(function (err, req, res, next) {
     }
 });
 
-let server = app.listen(process.env.PORT || 3000, function () {
+let server = app.listen(process.env.PORT || 8000, function () {
     console.log('server is listening on ' + server.address().port);
 });
