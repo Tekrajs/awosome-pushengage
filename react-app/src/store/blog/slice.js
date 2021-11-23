@@ -22,7 +22,7 @@ export const retrieveBlog = createAsyncThunk(
         } catch (err) {
             let error = err;
             if (!error.response) {
-                throw err;
+                return rejectWithValue({ errors: { [err.name]: err.message } });
             }
             return rejectWithValue(error.response.body);
         }
@@ -40,7 +40,7 @@ export const createBlog = createAsyncThunk(
         } catch (err) {
             let error = err;
             if (!error.response) {
-                throw err;
+                return rejectWithValue({ errors: { [err.name]: err.message } });
             }
             return rejectWithValue(error.response.body);
         }
@@ -56,7 +56,7 @@ export const retrieveBlogs = createAsyncThunk(
         } catch (err) {
             let error = err;
             if (!error.response) {
-                return rejectWithValue({ error: { response: { body: { [err.name]: err.message } } } });
+                return rejectWithValue({ errors: { [err.name]: err.message } });
             }
             return rejectWithValue(error.response.body);
         }
@@ -73,7 +73,7 @@ export const retrieveComments = createAsyncThunk(
 
             let error = err;
             if (!error.response) {
-                throw err;
+                return rejectWithValue({ errors: { [err.name]: err.message } });
             }
             return rejectWithValue(error.response.body);
 

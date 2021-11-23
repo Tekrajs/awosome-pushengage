@@ -32,11 +32,13 @@ class Login extends Component {
                                             <div className="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
                                                 <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
                                                 <form className="mx-1 mx-md-4">
-                                                    { this.props.errors['email or password'] && <div className="error">{ 'email or password' + this.props.errors['email or password'] }</div> }
+
+                                                    { this.props.errors?.['email or password'] && <div className="error">{ 'email or password' + this.props.errors['email or password'] }</div> }
+
                                                     <div className="d-flex flex-row align-items-center mb-4">
                                                         <div className="form-outline flex-fill mb-0">
                                                             <input type="text" name="username" id="username" className="form-control" onChange={ (ev) => this.onChange(ev) } />
-                                                            <label className={ "form-label" + (this.props.errors.username ? ' error' : '') } htmlFor="username">Username { this.props.errors.username } </label>
+                                                            <label className={ "form-label" + (this.props.errors.username ? ' error' : '') } htmlFor="username">Email { this.props.errors.username } </label>
                                                         </div>
                                                     </div>
 

@@ -2,8 +2,6 @@ import React from "react";
 
 const Pagination = props => {
 
-    console.log("pagination props", props);
-
     const shouldShowPrev = (props) => {
         return props.currentPage > 1;
     };

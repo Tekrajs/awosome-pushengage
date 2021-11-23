@@ -16,7 +16,7 @@ export const loginUser = createAsyncThunk(
         } catch (err) {
             let error = err;
             if (!error.response) {
-                throw err;
+                return rejectWithValue({ errors: { [err.name]: err.message } });
             }
             return rejectWithValue(error.response.body);
         }
@@ -32,7 +32,7 @@ export const registerUser = createAsyncThunk(
         } catch (err) {
             let error = err;
             if (!error.response) {
-                throw err;
+                return rejectWithValue({ errors: { [err.name]: err.message } });
             }
             return rejectWithValue(error.response.body);
         }
@@ -83,7 +83,7 @@ const authSlice = createSlice({
 
         [loginUser.rejected]: (state, action) => {
             state.loading = false;
-            state.errors = action.payload.errors;
+            state.errors = action.payload.errors || action.payload;
         }
     }
 });
