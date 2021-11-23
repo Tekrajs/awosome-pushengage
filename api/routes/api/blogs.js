@@ -163,8 +163,7 @@ router.post('/blogs/:blog/comments', auth.required, async function (req, res, ne
         return res.status(200).json({ comment: comment });
 
     } catch (err) {
-        // next(err);
-        console.log(err);
+        next(err);
     }
 
 });
