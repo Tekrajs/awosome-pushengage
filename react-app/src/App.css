@@ -975,3 +975,8 @@ body {
   .comment-img img{
       border-radius: 50%;
   }
+
+  li.disabled {
+    pointer-events:none;
+    opacity:0.6;
+  }

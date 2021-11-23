@@ -7,7 +7,10 @@ const initialState = {
     show_model: false,
     blog: {},
     blogs: [],
-    errors: {}
+    errors: {},
+    count: 0,
+    pageLimit: 9,
+    currentPage: 1
 };
 
 export const retrieveBlog = createAsyncThunk(
@@ -28,10 +31,12 @@ export const retrieveBlog = createAsyncThunk(
 
 export const createBlog = createAsyncThunk(
     "blog/create",
-    async ({ title, content, date }, { rejectWithValue }) => {
+    async ({ title, content, date, offset, limit }, { rejectWithValue }) => {
         try {
             const res = await agent.Blog.create({ blog: { title, content, date } });
-            return res;
+            if (res) {
+                return await agent.Blog.getAll({ offset, limit });
+            }
         } catch (err) {
             let error = err;
             if (!error.response) {
@@ -44,9 +49,9 @@ export const createBlog = createAsyncThunk(
 
 export const retrieveBlogs = createAsyncThunk(
     "blog/retrieves",
-    async (_, { rejectWithValue }) => {
+    async ({ offset, limit }, { rejectWithValue }) => {
         try {
-            let res = await agent.Blog.getAll();
+            let res = await agent.Blog.getAll({ offset, limit });
             return res;
         } catch (err) {
             let error = err;
@@ -108,8 +113,10 @@ const blogSlice = createSlice({
 
         [createBlog.fulfilled]: (state, action) => {
             state.creating = false;
-            state.blog = action.payload.blog;
-            state.blogs.push(action.payload.blog);
+            state.loading = false;
+            state.blog = {};
+            state.blogs = action.payload.blogs;
+            state.count = action.payload.count;
             state.show_model = !state.show_model;
         },
 

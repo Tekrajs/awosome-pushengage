@@ -27,7 +27,7 @@ const Auth = {
 
 const Blog = {
     create: (data) => requests.post('/blogs', data),
-    getAll: () => requests.get('/blogs'),
+    getAll: ({ offset, limit }) => requests.get('/blogs', { offset, limit }),
     get: (id) => requests.get(`/blogs/${id}`),
     update: (id, data) => requests.put(`/blogs/${id}`, data),
     delete: (id) => requests.delete(`/blogs/${id}`)

@@ -5,6 +5,7 @@ import { retrieveBlogs, actions, createBlog } from '../../store/blog/slice';
 import BlogPreview from './blogPreview';
 import { Loader } from '../loader';
 import Modal from '../Model';
+import Pagination from '../Pagination';
 class BlogList extends Component {
 
     constructor (props) {
@@ -17,7 +18,7 @@ class BlogList extends Component {
             this._isMounted = true;
         }
         this.props.setLoading();
-        this.props.retrieveBlogs();
+        this.props.retrieveBlogs({ offset: ((parseInt(this.props.currentPage) - 1) * this.props.pageLimit), limit: this.props.pageLimit });
     }
 
     modelToggle = () => {
@@ -50,8 +51,30 @@ class BlogList extends Component {
             return false;
         }
 
-        this.props.createBlog({ ...this.props.blog });
+        this.props.createBlog({
+            ...this.props.blog,
+            offset: (this.props.currentPage - 1) * this.props.pageLimit,
+            limit: this.props.pageLimit
+        });
 
+    };
+
+    handlePagination = (e) => {
+        this.props.updateState({ key: 'loading', value: true });
+        let page = parseInt(this.props.currentPage), offset = 0;
+        let { page_type } = e.currentTarget.dataset;
+        if (page_type === 'prev') {
+            page = page - 1;
+            offset = (page - 1) * this.props.pageLimit;
+            this.props.updateState({ key: 'currentPage', value: (parseInt(this.props.currentPage) - 1) });
+        }
+
+        if (page_type === 'next') {
+            page = page + 1;
+            offset = (page - 1) * this.props.pageLimit;
+            this.props.updateState({ key: 'currentPage', value: (parseInt(this.props.currentPage) + 1) });
+        }
+        this.props.retrieveBlogs({ offset: offset, limit: this.props.pageLimit });
     };
 
     render() {
@@ -82,6 +105,13 @@ class BlogList extends Component {
                     }
                 </div>
 
+                { !this.props.loading && <Pagination
+                    blogCount={ this.props.blogCount }
+                    pageLimit={ this.props.pageLimit }
+                    currentPage={ this.props.currentPage }
+                    handlePagination={ this.handlePagination }
+                /> }
+
                 { this.props.show_model
                     && <Modal
                         errors={ this.props.errors }
@@ -96,12 +126,18 @@ class BlogList extends Component {
 };
 
 const mapStateToProps = (state) => {
-    let { loading, blog, blogs, errors, show_model } = state.blogReducer;
+    let {
+        loading, blog, blogs, errors,
+        show_model, count: blogCount,
+        pageLimit, currentPage
+    } = state.blogReducer;
 
     return {
         loading,
         blog,
         blogs,
+        blogCount,
+        pageLimit, currentPage,
         errors,
         show_model,
         currentUser: state.commonReducer.currentUser,
