@@ -56,7 +56,7 @@ export const retrieveBlogs = createAsyncThunk(
         } catch (err) {
             let error = err;
             if (!error.response) {
-                throw err;
+                return rejectWithValue({ error: { response: { body: { [err.name]: err.message } } } });
             }
             return rejectWithValue(error.response.body);
         }
