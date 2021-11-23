@@ -980,3 +980,7 @@ body {
     pointer-events:none;
     opacity:0.6;
   }
+
+  .comment-holder p {
+    white-space: pre;
+  }

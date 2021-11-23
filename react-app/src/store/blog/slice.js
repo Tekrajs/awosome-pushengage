@@ -9,7 +9,7 @@ const initialState = {
     blogs: [],
     errors: {},
     count: 0,
-    pageLimit: 9,
+    pageLimit: 6,
     currentPage: 1
 };
 

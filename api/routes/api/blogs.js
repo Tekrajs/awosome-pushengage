@@ -45,7 +45,7 @@ router.get('/blogs/:id', auth.optional, async function (req, res, next) {
 router.get('/blogs', auth.optional, async function (req, res, next) {
     try {
         let query = {},
-            limit = 9, offset = 0;
+            limit = 6, offset = 0;
 
         if (req.query.limit) {
             limit = req.query.limit;
