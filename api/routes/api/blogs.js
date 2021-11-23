@@ -96,31 +96,23 @@ router.get('/blogs/:blog_id/comments', auth.optional, async function (req, res, 
 
     Comment.find({ blog: Object(req.params.blog_id) }).populate('author', { username: 1 }).sort({ publishDate: 1 }).lean().exec()
         .then(comments => {
-            let iterator = (comment, threads) => {
-                for (let thread in threads) {
-                    let record = threads[thread];
 
-                    if (thread.toString() === comment.parentId.toString()) {
-                        record.children[comment._id] = comment;
-                        return;
-                    }
+            const threads = [];
 
-                    if (record.children) {
-                        iterator(comment, record.children);
-                    }
+            comments.forEach(node => {
+
+                if (!node.parentId) return threads.push(node);
+
+                const parentIndex = comments.findIndex(el => el._id.toString() === node.parentId.toString());
+
+                console.log(parentIndex);
+                if (!comments[parentIndex].children) {
+                    return comments[parentIndex].children = [node];
                 }
-            };
-            let threads = {}, comment;
-            for (let i = 0; i < comments.length; i++) {
-                comment = comments[i];
-                comment['children'] = {};
-                let parentId = comment.parentId;
-                if (!parentId) {
-                    threads[comment._id] = comment;
-                    continue;
-                }
-                iterator(comment, threads);
-            }
+
+                comments[parentIndex].children.push(node);
+            });
+
             return res.json({
                 'count': comments.length,
                 'comments': threads
