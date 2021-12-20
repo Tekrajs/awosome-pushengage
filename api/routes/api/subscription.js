@@ -49,16 +49,19 @@ router.get('/confirm', async (req, res, next) => {
 
         if (token_info) {
 
-            let subscription = new Subscriptions({
-                email: token_info.email,
-                is_subscribed: true
-            });
-
-            await subscription.save();
+            await Subscriptions.findOneAndUpdate(
+                { email: email },
+                {
+                    email: token_info.email,
+                    is_subscribed: true
+                },
+                { upsert: true, setDefaultsOnInsert: true, useFindAndModify: false }
+            );
 
         }
 
         return res.redirect('//www.google.com');
+
 
     } catch (error) {
         /* If error for cases like invalid token and any other
