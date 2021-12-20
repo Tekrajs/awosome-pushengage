@@ -24,6 +24,12 @@ export const LoggedOutView = props => {
                     </Link>
                 </li>
 
+                <li className="nav-item">
+                    <Link to="/subscribe" className="nav-link">
+                        Subscribe
+                    </Link>
+                </li>
+
             </ul>
         );
     }

@@ -2,9 +2,10 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import agent from '../agent';
 
 const initialState = {
-    appName: 'Awosome Motive',
+    appName: 'Awosome App',
     appLoaded: false,
     loading: false,
+    subscription: {},
     errors: {}
 };
 
@@ -32,11 +33,43 @@ export const onAppLoad = createAsyncThunk(
     }
 );
 
+export const onSubscribe = createAsyncThunk(
+    "common/onSubscribe",
+    async ({ email }, { rejectWithValue }) => {
+
+        try {
+            let res = await agent.Subscription.create(email);
+            return res;
+
+        } catch (err) {
+            let error = err;
+            if (!error.response) {
+                return rejectWithValue({ errors: { [err.name]: err.message } });
+            }
+            return rejectWithValue(error.response.body);
+        }
+    }
+);
+
 
 const commonSlice = createSlice({
     name: "common",
     initialState,
-    reducers: {},
+    reducers: {
+
+        updateSubscriptionState(state, action) {
+
+            if (state.errors[action.payload.key])
+                delete (state.errors[action.payload.key]);
+
+            state.subscription[action.payload.key] = action.payload.value;
+        },
+
+        updateErrorState(state, action) {
+            state.errors[action.payload.key] = action.payload.value;
+        }
+
+    },
     extraReducers: {
         [onAppLoad.pending]: (state) => {
             state.loading = true;
@@ -57,7 +90,16 @@ const commonSlice = createSlice({
                 window.localStorage.removeItem('token');
                 state.currentUser = null;
             }
-        }
+        },
+
+        [onSubscribe.fulfilled]: (state, action) => {
+            state.subscription.message = action.payload.message;
+        },
+
+        [onSubscribe.rejected]: (state, action) => {
+            state.loading = false;
+            state.errors = action.payload.errors;
+        },
     }
 });
 

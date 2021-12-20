@@ -39,6 +39,10 @@ const Comments = {
 
 };
 
+const Subscription = {
+    create: (email) => requests.post(`/subscription/create`, { email })
+};
+
 
 const requests = {
     del: url =>
@@ -57,6 +61,7 @@ const agent = {
     Auth,
     Blog,
     Comments,
+    Subscription,
     setToken
 };
 

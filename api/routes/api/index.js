@@ -2,6 +2,7 @@ let router = require('express').Router();
 
 router.use(require('./users'));
 router.use(require('./blogs'));
+router.use('/subscription', require('./subscription'));
 
 router.use(function (err, req, res, next) {
 
