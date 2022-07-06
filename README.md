@@ -1,4 +1,4 @@
-# awosome-pushengage
+# sample app with redux toolkit
 Blog app using ReactJs and Redux toolkit as front end library and NodeJs as Backend
 
 # Pre requisites
