@@ -5,7 +5,7 @@ Blog app using ReactJs and Redux toolkit as front end library and NodeJs as Back
 1. MongoDb should be pre installed in the system
 # steps to set up
 
-1. Clone the repo ``` git clone https://github.com/Tekrajs/awosome-pushengage.git``` and cd awosome-pushengage
+1. Clone the repo ``` https://github.com/Tekrajs/sample-react-redux-toolkit-app ``` and cd sample-react-redux-toolkit-app
 2. cd api
 3. copy the .env.example variable to .env for dev test ``` cp .env.example .env ```
 4. yarn install
